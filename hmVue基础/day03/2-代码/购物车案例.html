@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Document</title>
+		<style type="text/css">
+			.container {
+			}
+			.container .cart {
+				width: 300px;
+				margin: auto;
+			}
+			.container .title {
+				background-color: lightblue;
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+				/*color: #fff;*/
+			}
+			.container .total {
+				background-color: #ffce46;
+				height: 50px;
+				line-height: 50px;
+				text-align: right;
+			}
+			.container .total button {
+				margin: 0 10px;
+				background-color: #dc4c40;
+				height: 35px;
+				width: 80px;
+				border: 0;
+			}
+			.container .total span {
+				color: red;
+				font-weight: bold;
+			}
+			.container .item {
+				height: 55px;
+				line-height: 55px;
+				position: relative;
+				border-top: 1px solid #add8e6;
+			}
+			.container .item img {
+				width: 45px;
+				height: 45px;
+				margin: 5px;
+			}
+			.container .item .name {
+				position: absolute;
+				width: 90px;
+				top: 0;
+				left: 55px;
+				font-size: 16px;
+			}
+
+			.container .item .change {
+				width: 100px;
+				position: absolute;
+				top: 0;
+				right: 50px;
+			}
+			.container .item .change a {
+				font-size: 20px;
+				width: 30px;
+				text-decoration: none;
+				background-color: lightgray;
+				vertical-align: middle;
+			}
+			.container .item .change .num {
+				width: 40px;
+				height: 25px;
+			}
+			.container .item .del {
+				position: absolute;
+				top: 0;
+				right: 0px;
+				width: 40px;
+				text-align: center;
+				font-size: 40px;
+				cursor: pointer;
+				color: red;
+			}
+			.container .item .del:hover {
+				background-color: orange;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="container">
+				<my-cart></my-cart>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/vue.js"></script>
+		<script type="text/javascript">
+			var CartTitle = {
+				props: ['uname'],
+				template: `
+			     <div class="title">{{uname}}的商品</div>
+			   `,
+			}
+			var CartList = {
+				props: ['list'],
+				template: `
+			     <div>
+			       <div :key='item.id' v-for='item in list' class="item">
+			         <img :src="item.img"/>
+			         <div class="name">{{item.name}}</div>
+			         <div class="change">
+			           <a href="" @click.prevent="updateNum('sub', item.id, item.num)">－</a>
+			           <!-- 将对输入内容的处理事件从blur换成input，每次内容变化都及时进行处理 -->
+			           <input type="text" class="num" :value='item.num' @input="updateNum('input', item.id, $event)"/>
+			           <a href="" @click.prevent="updateNum('add', item.id, item.num)">＋</a>
+			         </div>
+			         <div class="del" @click='del(item.id)'>×</div>
+			       </div>
+			     </div>
+			   `,
+				methods: {
+					// 参数type: 标识操作类型 add增加 sub减少 input输入
+					// 参数id: 被更新数量的商品id
+					// 参数numOrEvent: 如果是增加和减少，为当前的num值；如果是输入该参数是事件对象
+					// 将id type和操作结果num数传回父组件
+					updateNum: function (type, id, numOrEvent) {
+						// 1. 默认按增加取值，不加限制，进行+1
+						let num = numOrEvent + 1
+
+						// 2. 如果是减小，最小值取1
+						if (type === 'sub') {
+							num = Math.max(numOrEvent - 1, 1)
+						}
+						// 3. 如果是输入框，将输入的/粘贴的非数字替换为空，前面的+将结果转成数字类型，同时对输入框的空值兼容处理成1
+						else if (type === 'input') {
+							num =
+								+numOrEvent.target.value.replace(
+									/[^\d]/gi,
+									''
+								) || 1
+						}
+
+						this.$emit('change-num', { id, type, num })
+					},
+					del: function (id) {
+						// 把id传递给父组件
+						this.$emit('cart-del', id)
+					},
+				},
+			}
+			var CartTotal = {
+				props: ['list'],
+				template: `
+			     <div class="total">
+			       <span>总价：{{total}}</span>
+			       <button>结算</button>
+			     </div>
+			   `,
+				computed: {
+					total: function () {
+						// 计算商品的总价
+						return this.list.reduce(
+							(sum, item) => sum + item.price * item.num,
+							0
+						)
+					},
+				},
+			}
+
+			Vue.component('my-cart', {
+				data: function () {
+					return {
+						uname: '张三',
+						list: [
+							{
+								id: 1,
+								name: 'TCL彩电',
+								price: 1000,
+								num: 1,
+								img: 'img/a.jpg',
+							},
+							{
+								id: 2,
+								name: '机顶盒',
+								price: 1000,
+								num: 1,
+								img: 'img/b.jpg',
+							},
+							{
+								id: 3,
+								name: '海尔冰箱',
+								price: 1000,
+								num: 1,
+								img: 'img/c.jpg',
+							},
+							{
+								id: 4,
+								name: '小米手机',
+								price: 1000,
+								num: 1,
+								img: 'img/d.jpg',
+							},
+							{
+								id: 5,
+								name: 'PPTV电视',
+								price: 1000,
+								num: 2,
+								img: 'img/e.jpg',
+							},
+						],
+					}
+				},
+				template: `
+			     <div class='cart'>
+			       <cart-title :uname='uname'></cart-title>
+			       <cart-list :list='list' @change-num='changeNum' @cart-del='delCart'></cart-list>
+			       <cart-total :list='list'></cart-total>
+			     </div>
+			   `,
+				components: {
+					'cart-title': CartTitle,
+					'cart-list': CartList,
+					'cart-total': CartTotal,
+				},
+				methods: {
+					changeNum: function (params) {
+						// 使用map方法，每次都返回一个新数组，让vue每次都会更新list数据
+						// 解决存在这样的一个bug: 比如默认是1，然后把内容清空，此时我们会将传递过来1到父组件
+						//  然而在父组件看来，这项数据原来就是1，现在又回传1，就不更新了。
+						// this.list.some(item => {
+						// 	if (item.id === params.id) {
+						// 		item.num = params.num
+
+						// 		return true
+						// 	}
+						// })
+						// this.list.splice(index, 1, {id: params.id, num: params: num})
+						// this.$set()
+						// Vue.set()
+						this.list = this.list.map(it => {
+							if (it.id === params.id) {
+								it.num = params.num
+							}
+							return it
+						})
+					},
+					delCart: function (id) {
+						// 根据id删除list中对应的数据
+						// 1、找到id所对应数据的索引
+						var index = this.list.findIndex(item => {
+							return item.id == id
+						})
+						// 2、根据索引删除对应数据
+						this.list.splice(index, 1)
+					},
+				},
+			})
+			var vm = new Vue({
+				el: '#app',
+				data: {},
+			})
+		</script>
+	</body>
+</html>

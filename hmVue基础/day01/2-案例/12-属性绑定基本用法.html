@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <a v-bind:href="url">百度</a>
+    <a :href="url">百度1</a>
+
+    <a :href="url" v-text="text"></a>
+    <button v-on:click='handle'>切换</button>
+  </div>
+  <script type="text/javascript" src="js/vue.js"></script>
+  <script type="text/javascript">
+    /*
+      属性绑定
+    */
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        url: 'http://www.baidu.com',
+        text:"百度"
+      },
+      methods: {
+        handle: function(){
+          // 修改URL地址
+          this.url = 'http://itcast.cn';
+          this.text="传智教育";
+        }
+      }
+    });
+  </script>
+</body>
+</html>
