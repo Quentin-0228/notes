@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script script src="lib/jquery.js"></script>
+</head>
+
+<body>
+    <br>
+
+    <img src="" alt="">
+    <script>
+        //【 第4 天 ******************************** 13.html 计算文件上传进度】
+        $(document).ready(function() {})
+
+
+        $.ajax({
+            method: "POST",
+            url: 'http://www.liulongbin.top:3006/api/upload/avatar',
+            data: fd,
+            // 不修改 content-type 属性 , 使用 fromData默认的 content-type 值
+            contentType: false, //shift + alt+ 上下键 【复制当前行】; 跳转 指定行
+            //    不对  fromData 中的数据进行 
+            processData: false,
+            success: function(res) {
+                console.log(res);
+            }
+
+
+        })
+    </script>
+</body>
+
+</html>

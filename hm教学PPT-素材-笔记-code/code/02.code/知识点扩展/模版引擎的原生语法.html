@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/template-web.js"></script>
+    <script src="../lib/jquery.js"></script>
+</head>
+<body>
+    <div id="container"></div>
+
+    <script type="text/html" id="tpl">
+        <div>{{username}}</div>
+        <div><%= username %></div>
+        <div>
+            {{if age>18}}
+            恭喜你可以上网了
+            {{else}}
+            抱歉
+            {{/if}}
+        </div>
+
+        <div>
+            <% if(age >18){ %>
+                恭喜你可以上网了
+            <% }else{ %>
+                抱歉
+            <% } %>
+        </div>
+    
+        <div>
+            {{each hobby}}
+             {{$value}}
+            {{/each}}
+        </div>
+
+        <div>
+            <% for(var i=0; i< hobby.length; i++){ %>
+                   <%= hobby[i] %>
+            <% } %>
+        </div>
+
+
+        <div>
+            {{each hobby v i}}
+             {{i+ " " +v}}
+            {{/each}}
+        </div>
+
+    </script>
+
+    <script>
+        const user={
+            username: 'tom',
+            age:20,
+            hobby:[
+                "pink","green","purple"
+            ]
+        }
+        //插值表达式
+
+        const str = template("tpl",user)
+        $("#container").html(str)
+    </script>
+</body>
+</html>

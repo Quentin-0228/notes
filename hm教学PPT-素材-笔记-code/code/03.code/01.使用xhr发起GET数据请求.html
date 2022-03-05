@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 1. 创建 XHR 对象
+        var xhr = new XMLHttpRequest()
+        console.log(xhr.readyState); // 0 ->xml对象创建了
+        // 2. 调用 open 函数
+        xhr.open('GET', 'http://www.liulongbin.top:3006/api/getbooks?id=1')
+        console.log(xhr.readyState);
+        // 3. 调用 send 函数
+        xhr.send()
+        console.log(xhr.readyState); // 1 -> open方法被调用
+        // 4. 监听 onreadystatechange 事件
+        xhr.onreadystatechange = function() {
+                console.log(xhr.readyState); //2-4  2:数据已经发送 3:数据接收  4:数据接收完毕
+                //0-4 5种状态
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // 获取服务器响应的数据
+                    console.log(xhr.responseText)
+                }
+            }
+            // 用 xhr 发起 GET 请求 【步骤: .创建xhr对象 ; .调用 xhr.open() 函数 ; .调用 xhr.send() 函数 ; 监听 xhr.onreadystatechange 事件 】
+    </script>
+
+</body>
+
+</html>

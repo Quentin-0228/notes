@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./lib/template-web.js"></script>
+    <script src="./lib/jquery.js"></script>
+</head>
+<body>
+    <div  id="div">
+       
+    </div>
+
+      <!-- 在模版中可以直接使用对象的属性 -->
+    <template id="user-tpl"> 
+        <div>{{username}}</div>
+        <div>{{age}}</div>
+        <ul>
+            {{each hobby}}
+            <li>{{$value}}</li>
+            {{/each}}
+        </ul>
+    </template>
+
+    <script>
+       //template(id,数据对象) 
+       const user = {
+           username: 'tom',
+           age:69,
+           hobby:["吃饭","睡觉","打豆豆"]
+       }
+
+       const str = template("user-tpl",user);
+    //    $("#div").html(str);  //html相当于 innerHtml 内容覆盖
+       $("#div").append(str)    //append 内容追加
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+   <!-- 1.导入模版引擎 -->
+   <script src="./lib/template-web.js"></script>
+   <script src="./lib/jquery.js"></script>
+</head>
+<body>
+  <div id="container"></div>
+   <!-- 3.定义一个模版 用于接收数据-->
+   <!-- 在模版中可以直接使用对象的属性 -->
+   <script type="text/html" id="tpl">
+      <div>{{username}}</div>
+      <div>{{age}}</div>
+      <div>{{nickname}}</div>
+      <div>{{skill}}</div>
+      <div>{{1+1}}</div>
+      <div>{{user.name}}</div>
+      <div>
+         {{if  age>18}}
+        <h1> 恭喜你,可以去网吧了</h1>
+         {{else}}
+         抱歉,你未成年
+         {{/if}}
+      </div>
+
+      <ul>
+        {{each hobby}}
+        <li>值为:{{$value.name}},索引是:{{$index}}</li>
+        {{/each}}
+      </ul>
+   </script>
+
+
+
+ <script>
+   //2.定义数据 是对象
+   const user={
+      username:"jack",
+      age:19,
+      nickname:"武德",
+      skill:"太极连环",
+      user:{
+        name:"rose"
+      },
+      hobby:[{
+        name:"盲僧"
+      },{
+        name:"瞎子"
+      },{
+        name:"李青"
+      }]
+   }
+   //4.调用template(id,对象数据)
+   const str = template("tpl",user);
+  //5.将拼接好的字符串展示到界面中
+  $("#container").html(str)
+ </script>
+</body>
+
+</html>
