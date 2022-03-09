@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="jquery.min.js"></script>
+    <script>
+        $(function() {
+            // var targetObj = {};
+            // var obj = {
+            //     id: 1,
+            //     name: "andy"
+            // };
+            // // $.extend(target, obj);
+            // $.extend(targetObj, obj);
+            // console.log(targetObj);
+            // var targetObj = {
+            //     id: 0
+            // };
+            // var obj = {
+            //     id: 1,
+            //     name: "andy"
+            // };
+            // // $.extend(target, obj);
+            // $.extend(targetObj, obj);
+            // console.log(targetObj); // 会覆盖targetObj 里面原来的数据
+            var targetObj = {
+                id: 0
+            };
+            var obj = {
+                id: 1,
+                name: "andy",
+                msg: {
+                    age: 18
+                }
+            };
+            // $.extend(target, obj);
+            // $.extend(targetObj, obj);
+            // console.log(targetObj); // 会覆盖targetObj 里面原来的数据
+            // targetObj.msg.age = 20;
+            // console.log(targetObj);
+            // console.log(obj);
+            // 浅拷贝只是把 obj 地址拷贝给了targetObj  
+            // 深拷贝 是把 obj 里面的数据完全克隆一份给targetObj   
+            // $.extend(targetObj, obj);
+            // targetObj.msg.age = 20;
+            // console.log(targetObj);
+            // console.log(obj);
+            var targetObj = {
+                id: 0,
+                msg: {
+                    sex: "男"
+                }
+            };
+            var obj = {
+                id: 1,
+                name: "andy",
+                msg: {
+                    age: 18
+                }
+            };
+            // $.extend(targetObj, obj);
+            // console.log(targetObj); // 浅拷贝 msg : {age : 18}
+            $.extend(true, targetObj, obj);
+            console.log(targetObj); // 深拷贝 msg : {age : 18, sex : "男"}
+
+
+        })
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
